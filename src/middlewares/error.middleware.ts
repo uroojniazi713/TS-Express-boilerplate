@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import { AppError } from "../errors/AppError.js"
+import { AppError } from "../errors/AppError.js";
 
 export const errorMiddleware = (
   err: Error,
   req: Request,
   res: Response,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   next: NextFunction
 ) => {
   if (err instanceof AppError) {
@@ -17,6 +17,6 @@ export const errorMiddleware = (
 
   return res.status(500).json({
     success: false,
-    message: "Internal Server Error",
+    message: err.message,
   });
 };

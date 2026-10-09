@@ -14,3 +14,8 @@ const [result] = await sequelize.query(`
 `);
 
 console.log(result);
+
+// Get each customer's name → connect customers to invoices →
+// connect invoices to invoice items →
+//  calculate total revenue for each customer →
+//  show highest revenue first.

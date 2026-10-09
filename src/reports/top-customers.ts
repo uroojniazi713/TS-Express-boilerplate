@@ -1,5 +1,5 @@
 import { Customer, Invoice, InvoiceItem } from "@/models/index.js";
-import { fn, col, literal } from "sequelize";
+import { fn, literal } from "sequelize";
 
 const result = await Customer.findAll({
   attributes: [

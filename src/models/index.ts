@@ -3,6 +3,9 @@ import Customer from "./customer.model.js";
 import Product from "./product.model.js";
 import Invoice from "./invoice.model.js";
 import InvoiceItem from "./invoice-item.model.js";
+import { User } from "./user.model.js";
+import { RefreshToken } from "./refresh-token.model.js"
+import { PasswordResetToken } from "./password-reset-token.model.js";
 
 Organization.hasMany(Customer, {
     foreignKey: "organizationId",
@@ -64,10 +67,21 @@ Organization.hasMany(Customer, {
     otherKey: "invoiceId",
   });
 
+  User.hasMany(PasswordResetToken, {
+    foreignKey: "userId",
+  });
+  
+  PasswordResetToken.belongsTo(User, {
+    foreignKey: "userId",
+  });
+
   export {
     Organization,
     Customer,
     Product,
     Invoice,
     InvoiceItem,
+    User,
+    RefreshToken,
+    PasswordResetToken,
   };
