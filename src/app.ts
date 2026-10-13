@@ -7,6 +7,8 @@ import uploadRoutes from "./routes/upload.routes.js";
 import reportRoutes from "@/routes/report.route.js";
 import authRouter from "@/routes/auth.route.js";
 import cookieParser from "cookie-parser";
+import authorizationTestRoutes from "./routes/authorization-test.route.js";
+import invoiceRoutes from "./routes/invoice.route.js";
 
 const app = express();
 
@@ -25,7 +27,8 @@ app.get("/error", (req, res, next) => {
 app.use("/api/reports", reportRoutes);
 
 app.use("/auth", authRouter);
-
+app.use("/api", authorizationTestRoutes);
+app.use("/api", invoiceRoutes);
 app.use(userRoutes);
 
 app.use("/api", uploadRoutes);

@@ -54,8 +54,6 @@ export const registerUser = async (
     };
   };
 
-// Salt, cost factor
-
 export const loginUser = async (
     email: string,
     password: string,
@@ -98,7 +96,7 @@ await createRefreshToken(
     };
   };
 
-  export const refreshAccessToken = async (
+export const refreshAccessToken = async (
     refreshToken: string,
   ) => {
     const storedToken = await findRefreshToken(refreshToken);
@@ -146,12 +144,12 @@ await createRefreshToken(
       };
   };
 
-  export const logoutUser = async (refreshToken: string) => {
+export const logoutUser = async (refreshToken: string) => {
     await revokeRefreshToken(refreshToken);
   };
 
 
-  export const logoutAllDevices = async (userId: number) => {
+export const logoutAllDevices = async (userId: number) => {
     await revokeAllRefreshTokensByUserId(userId);
   
     return {

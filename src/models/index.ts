@@ -6,6 +6,8 @@ import InvoiceItem from "./invoice-item.model.js";
 import { User } from "./user.model.js";
 import { RefreshToken } from "./refresh-token.model.js"
 import { PasswordResetToken } from "./password-reset-token.model.js";
+import Role from "./role.model.js";
+import Permission from "./permission.model.js";
 
 Organization.hasMany(Customer, {
     foreignKey: "organizationId",
@@ -75,6 +77,40 @@ Organization.hasMany(Customer, {
     foreignKey: "userId",
   });
 
+  Role.belongsToMany(Permission, {
+    through: "RolePermissions",
+    foreignKey: "roleId",
+    otherKey: "permissionId",
+    as: "permissions",
+  });
+  
+  Permission.belongsToMany(Role, {
+    through: "RolePermissions",
+    foreignKey: "permissionId",
+    otherKey: "roleId",
+    as: "roles",
+  });
+
+  User.belongsTo(Role, {
+    foreignKey: "roleId",
+    as: "role",
+  });
+
+  Organization.hasMany(User, {
+    foreignKey: "organizationId",
+    as: "users",
+  });
+  
+  User.belongsTo(Organization, {
+    foreignKey: "organizationId",
+    as: "organization",
+  });
+  
+  Role.hasMany(User, {
+    foreignKey: "roleId",
+    as: "users",
+  });
+
   export {
     Organization,
     Customer,
@@ -84,4 +120,6 @@ Organization.hasMany(Customer, {
     User,
     RefreshToken,
     PasswordResetToken,
+    Role,
+    Permission,
   };

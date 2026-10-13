@@ -1,6 +1,7 @@
 import { User, RefreshToken, PasswordResetToken, } from "@/models/index.js";
 import { Op } from "sequelize";
 
+// Finds a user during login so we can check their password.
 export const findUserByEmail = async (email: string) => {
   return User.findOne({
     where: {
@@ -9,6 +10,7 @@ export const findUserByEmail = async (email: string) => {
   });
 };
 
+// Creates a new user during registration and stores the hashed password.
 export const createUser = async (
     email: string,
     passwordHash: string,
@@ -24,6 +26,7 @@ export const createUser = async (
     });
   };
 
+//   Saves a refresh token in the database.
 export const createRefreshToken = async (
     userId: number,
     token: string,
@@ -36,7 +39,8 @@ export const createRefreshToken = async (
     });
   };
   
-  export const findRefreshToken = async (token: string) => {
+//   Finds a refresh token to validate it during refresh or logout.
+export const findRefreshToken = async (token: string) => {
     return RefreshToken.findOne({
       where: {
         token,
@@ -44,7 +48,8 @@ export const createRefreshToken = async (
     });
   };
   
-  export const revokeRefreshToken = async (token: string) => {
+//  Marks a refresh token as revoked, so it cannot be reused.
+export const revokeRefreshToken = async (token: string) => {
     return RefreshToken.update(
       {
         revokedAt: new Date(),
@@ -57,7 +62,8 @@ export const createRefreshToken = async (
     );
   };
 
-  export const revokeAllRefreshTokensByUserId = async (
+//   Revokes all active refresh tokens belonging to a user.
+export const revokeAllRefreshTokensByUserId = async (
     userId: number,
   ) => {
     return RefreshToken.update(
@@ -73,7 +79,7 @@ export const createRefreshToken = async (
     );
   };
 
-  export const findUserByVerificationToken = async (
+export const findUserByVerificationToken = async (
     tokenHash: string,
   ) => {
     return User.findOne({
@@ -83,7 +89,7 @@ export const createRefreshToken = async (
     });
   };
   
-  export const verifyUserEmail = async (userId: number) => {
+export const verifyUserEmail = async (userId: number) => {
     return User.update(
       {
         emailVerified: true,
@@ -98,7 +104,7 @@ export const createRefreshToken = async (
     );
   };
 
-  export const createPasswordResetToken = async (
+export const createPasswordResetToken = async (
     userId: number,
     tokenHash: string,
     expiresAt: Date,
@@ -110,7 +116,7 @@ export const createRefreshToken = async (
     });
   };
   
-  export const findPasswordResetToken = async (
+export const findPasswordResetToken = async (
     tokenHash: string,
   ) => {
     return PasswordResetToken.findOne({
@@ -120,7 +126,7 @@ export const createRefreshToken = async (
     });
   };
   
-  export const markPasswordResetTokenAsUsed = async (
+export const markPasswordResetTokenAsUsed = async (
     tokenId: number,
   ) => {
     return PasswordResetToken.update(
@@ -135,7 +141,7 @@ export const createRefreshToken = async (
     );
   };
 
-  export const updateUserPassword = async (
+export const updateUserPassword = async (
     userId: number,
     passwordHash: string,
   ) => {
@@ -151,7 +157,7 @@ export const createRefreshToken = async (
     );
   };
 
-  export const findActiveSessionsByUserId = async (
+export const findActiveSessionsByUserId = async (
     userId: number,
   ) => {
     return RefreshToken.findAll({

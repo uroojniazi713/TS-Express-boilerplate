@@ -1,5 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database.js";
+import type Role from "./role.model.js";
 
 export class User extends Model {
   declare id: number;
@@ -8,6 +9,9 @@ export class User extends Model {
   declare passwordHash: string;
   declare verificationTokenHash: string | null;
   declare verificationTokenExpiresAt: Date | null;
+  declare roleId: number | null;
+  declare role?: Role | null;
+  declare organizationId: number | null;
 }
 
 User.init(
@@ -44,6 +48,10 @@ User.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    roleId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
   },
   {
     sequelize,
