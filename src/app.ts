@@ -9,8 +9,23 @@ import authRouter from "@/routes/auth.route.js";
 import cookieParser from "cookie-parser";
 import authorizationTestRoutes from "./routes/authorization-test.route.js";
 import invoiceRoutes from "./routes/invoice.route.js";
+import helmet from "helmet";
+import cors from "cors";
+import { generalRateLimiter, authRateLimiter } from "./middlewares/rate-limit.middleware.js";
 
 const app = express();
+
+// Security headers
+app.use(helmet())
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  }),
+);
+
+app.use(generalRateLimiter)
 
 app.use(express.json());
 
@@ -26,7 +41,7 @@ app.get("/error", (req, res, next) => {
 
 app.use("/api/reports", reportRoutes);
 
-app.use("/auth", authRouter);
+app.use("/auth", authRateLimiter, authRouter);
 app.use("/api", authorizationTestRoutes);
 app.use("/api", invoiceRoutes);
 app.use(userRoutes);
